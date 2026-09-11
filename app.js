@@ -30,7 +30,34 @@
       }
     });
   }
-  const findRecord = (id) => records.find((record) => record.id === id);
+  // === 运行时派生：英文标签 + lastVerified + 章节TOC ===
+  const enTagMap = {
+    ancient: 'ancient civilization prehistoric archaeology megalithic pyramid stonehenge',
+    theories: 'extraterrestrial SETI astrobiology cosmology space exploration telescope',
+    beings: 'alien abduction contact extraterrestrial beings encounter',
+    uap: 'UFO UAP unidentified aerial phenomenon navy pentagon radar',
+    circles: 'crop circle formation geometry Wiltfield England pattern',
+    latitude30: '30th parallel latitude mystery sacred geology Peru Egypt',
+    symbols: 'ancient script symbols hieroglyphics decipherment archaeology',
+    resources: 'database archive digital library open access research',
+  };
+  records.forEach((record) => {
+    if (!record.lastVerified) record.lastVerified = '2025-07-18';
+    if (!record.enTags) {
+      const parts = new Set();
+      if (enTagMap[record.category]) enTagMap[record.category].split(' ').forEach(w => parts.add(w));
+      (record.tags || []).forEach(tag => {
+        const lower = tag.toLowerCase();
+        if (/^[a-z0-9 -]+$/.test(lower)) lower.split(' ').forEach(w => parts.add(w));
+      });
+      if (record.title && /[a-zA-Z]{3,}/.test(record.title)) {
+        const m = record.title.match(/[A-Za-zÀ-ɏ]{3,}/g);
+        if (m) m.forEach(w => parts.add(w.toLowerCase()));
+      }
+      if (parts.size) record.enTags = Array.from(parts).join(' ');
+    }
+  });
+    const findRecord = (id) => records.find((record) => record.id === id);
   const hallList = [
     {
       id: "ancient",
@@ -795,6 +822,7 @@
         [
           r.title,
           r.subtitle,
+          r.enTags || '',
           r.summary,
           r.source,
           r.region,
@@ -1019,7 +1047,7 @@
       return `${summary}<div class="article-deep-reading"><div class="eyebrow">DEEP READING / 证据与语境</div>${chapters
         .map(
           (chapter, index) =>
-            `<section class="article-chapter"><h2>${esc(chapter.h || `研究记录 ${index + 1}`)}</h2>${(Array.isArray(chapter.p) ? chapter.p : [chapter.p]).filter(Boolean).map((paragraph) => `<p>${esc(paragraph)}</p>`).join("")}</section>`,
+            `<section class="article-chapter" id="ch-${index}"><h2>${esc(chapter.h || `研究记录 ${index + 1}`)}</h2>${(Array.isArray(chapter.p) ? chapter.p : [chapter.p]).filter(Boolean).map((paragraph) => `<p>${esc(paragraph)}</p>`).join("")}</section>`,
         )
         .join("")}</div>`;
     }
@@ -1050,7 +1078,7 @@
           ? "本条保留历史叙述或创作者记录。叙述的存在与叙述所指事件的真实性，需要分别考察。"
           : "本条依据已列明的公开资料整理。具体结论须结合原始资料的研究范围、方法与日期阅读。";
     $("#main").innerHTML =
-      `<div class="wrap detail-page">${breadcrumbs([{ label: hall(record.category).name, href: categoryHref(record.category) }, { label: record.title }])}<div class="detail-layout"><article class="detail-main"><span class="eyebrow">${esc(record.subtitle)}</span><h1 class="detail-title">${esc(record.title)}</h1><div class="detail-meta">${statusBadge(record)}<span>${esc(record.publishedAt)} · 资料日期</span><span>${esc(record.type)}</span><span>阅读时长可按内容深度调整</span></div><button class="detail-media" data-action="preview" data-key="${key}" title="查看完整图像">${photo(key, "", "eager")}<span class="icon-button">${icon("expand")}</span></button><p class="image-credit">配图：${esc(image.name)}。${esc(image.author)} · ${esc(image.license)}。配图不构成该事件的观测证据。<button class="text-link" style="font-size:9px" data-action="sources">图像来源 ${icon("arrow-up-right")}</button></p><p class="article-intro">${esc(record.summary)}</p><div class="article-body">${renderArticleContent(record)}<div class="article-evidence"><h2>资料属性 · ${esc(record.status)}</h2><p>${evidence}</p></div><h2>原始资料</h2><a class="source-link" href="${esc(record.sourceUrl)}" target="_blank" rel="noopener noreferrer"><span>01</span><div>${esc(record.source)}<small>${esc(new URL(record.sourceUrl).hostname)} · ${esc(record.publishedAt)}</small></div>${icon("arrow-up-right")}</a>${record.videoUrl ? `<a class="source-link" href="${esc(record.videoUrl)}" target="_blank" rel="noopener noreferrer"><span>02</span><div>${esc(record.videoLabel || "影像资料 · 视频")}<small>${esc(new URL(record.videoUrl).hostname)} · 官方或授权影像入口</small></div>${icon("clapperboard")}</a>` : ""}${record.fileUrl ? `<a class="source-link" href="${esc(record.fileUrl)}" target="_blank" rel="noopener noreferrer"><span>${record.videoUrl ? "03" : "02"}</span><div>${esc(record.fileLabel || "原始文件 · 下载")}<small>${esc(new URL(record.fileUrl).hostname)} · 档案原件或授权副本</small></div>${icon("file-down")}</a>` : ""}<div class="article-tags">${record.tags.map((tag) => `<a href="#/search?q=${encodeURIComponent(tag)}"># ${esc(tag)}</a>`).join("")}</div></div></article><aside class="detail-aside"><div class="aside-sticky"><div class="detail-id">GT-${record.category.toUpperCase().slice(0, 3)}-${String(records.indexOf(record) + 1).padStart(4, "0")}</div><dl class="detail-facts"><div><dt>${record.category === "resources" ? "归属栏目" : "归属分馆"}</dt><dd>${hall(record.category).name}</dd></div><div><dt>资料类型</dt><dd>${esc(record.type)}</dd></div><div><dt>资料年份</dt><dd>${record.year}</dd></div><div><dt>涉及地区</dt><dd>${esc(record.region)}</dd></div><div><dt>证据属性</dt><dd>${esc(record.status)}</dd></div></dl><div class="detail-actions">${bookmarkButton(record, true)}<button class="button primary" data-action="download" data-id="${id}">${icon("download")}导出档案摘要</button><button class="button ghost" data-action="copy-source" data-id="${id}">${icon("link")}复制来源链接</button><button class="button ghost" data-action="correction" data-id="${id}">${icon("file-pen-line")}记录补充线索</button></div><div class="aside-related"><h2>关联档案</h2>${related.map((r) => `<a href="#/archive/${r.id}">${photo(imageKey(r))}<span>${esc(r.title)}</span></a>`).join("") || '<p class="muted">暂无关联档案</p>'}</div></div></aside></div><div class="detail-back"><a class="text-link" href="${categoryHref(record.category)}">${icon("arrow-left")}返回${hall(record.category).name}</a><a class="text-link" href="#/archives">全部馆藏${icon("arrow-right")}</a></div></div>`;
+      `<div class="wrap detail-page">${breadcrumbs([{ label: hall(record.category).name, href: categoryHref(record.category) }, { label: record.title }])}<div class="detail-layout"><article class="detail-main"><span class="eyebrow">${esc(record.subtitle)}</span><h1 class="detail-title">${esc(record.title)}</h1><div class="detail-meta">${statusBadge(record)}<span>${esc(record.publishedAt)} · 资料日期</span><span>${esc(record.type)}</span><span>阅读时长可按内容深度调整</span></div><button class="detail-media" data-action="preview" data-key="${key}" title="查看完整图像">${photo(key, "", "eager")}<span class="icon-button">${icon("expand")}</span></button><p class="image-credit">配图：${esc(image.name)}。${esc(image.author)} · ${esc(image.license)}。配图不构成该事件的观测证据。<button class="text-link" style="font-size:9px" data-action="sources">图像来源 ${icon("arrow-up-right")}</button></p><p class="article-intro">${esc(record.summary)}</p><div class="article-body">${renderArticleContent(record)}<nav class="article-toc" aria-label="章节目录"><span class="eyebrow">CONTENTS</span><ul>${(record.expandedSections||[]).map((ch,i)=>`<li><a href="#ch-${i}">${esc(ch.h||"章节 "+(i+1))}</a></li>`).join("")}</ul></nav><div class="article-evidence"><h2>资料属性 · ${esc(record.status)}</h2><p>${evidence}</p></div><h2>原始资料</h2><a class="source-link" href="${esc(record.sourceUrl)}" target="_blank" rel="noopener noreferrer"><span>01</span><div>${esc(record.source)}<small>${esc(new URL(record.sourceUrl).hostname)} · ${esc(record.publishedAt)}</small></div>${icon("arrow-up-right")}</a>${record.videoUrl ? `<a class="source-link" href="${esc(record.videoUrl)}" target="_blank" rel="noopener noreferrer"><span>02</span><div>${esc(record.videoLabel || "影像资料 · 视频")}<small>${esc(new URL(record.videoUrl).hostname)} · 官方或授权影像入口</small></div>${icon("clapperboard")}</a>` : ""}${record.fileUrl ? `<a class="source-link" href="${esc(record.fileUrl)}" target="_blank" rel="noopener noreferrer"><span>${record.videoUrl ? "03" : "02"}</span><div>${esc(record.fileLabel || "原始文件 · 下载")}<small>${esc(new URL(record.fileUrl).hostname)} · 档案原件或授权副本</small></div>${icon("file-down")}</a>` : ""}<div class="article-tags">${record.tags.map((tag) => `<a href="#/search?q=${encodeURIComponent(tag)}"># ${esc(tag)}</a>`).join("")}</div></div></article><aside class="detail-aside"><div class="aside-sticky"><div class="detail-id">GT-${record.category.toUpperCase().slice(0, 3)}-${String(records.indexOf(record) + 1).padStart(4, "0")}</div><dl class="detail-facts"><div><dt>${record.category === "resources" ? "归属栏目" : "归属分馆"}</dt><dd>${hall(record.category).name}</dd></div><div><dt>资料类型</dt><dd>${esc(record.type)}</dd></div><div><dt>资料年份</dt><dd>${record.year}</dd></div><div><dt>涉及地区</dt><dd>${esc(record.region)}</dd></div><div><dt>证据属性</dt><dd>${esc(record.status)}</dd></div></dl><div class="detail-actions">${bookmarkButton(record, true)}<button class="button primary" data-action="download" data-id="${id}">${icon("download")}导出档案摘要</button><button class="button ghost" data-action="copy-source" data-id="${id}">${icon("link")}复制来源链接</button><button class="button ghost" data-action="correction" data-id="${id}">${icon("file-pen-line")}记录补充线索</button><button class="button ghost" data-action="export-bibtex" data-id="${id}">${icon("book-marked")}导出引用 (BibTeX)</button></div><div class="aside-related"><h2>关联档案</h2>${related.map((r) => `<a href="#/archive/${r.id}">${photo(imageKey(r))}<span>${esc(r.title)}</span></a>`).join("") || '<p class="muted">暂无关联档案</p>'}</div></div></aside></div><div class="detail-back"><a class="text-link" href="${categoryHref(record.category)}">${icon("arrow-left")}返回${hall(record.category).name}</a><a class="text-link" href="#/archives">全部馆藏${icon("arrow-right")}</a></div></div>`;
     if (params.get("from") === "library" && libraryRecords().some(r => r.id === id)) {
       const crumb = $(".detail-page .breadcrumbs a:nth-of-type(2)");
       crumb.href = "#/library";

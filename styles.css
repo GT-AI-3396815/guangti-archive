@@ -3233,3 +3233,11 @@ dialog::backdrop {
 /* 分页展开按钮 */
 .catalog-more-wrap { display: flex; justify-content: center; padding: 26px 0 8px; }
 .catalog-more-wrap .button { min-width: 220px; }
+
+/* 章节目录 */
+.article-toc { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 14px 18px; margin: 20px 0; }
+.article-toc .eyebrow { display: block; margin-bottom: 8px; }
+.article-toc ul { list-style: none; padding: 0; margin: 0; }
+.article-toc li { padding: 4px 0; }
+.article-toc a { color: var(--accent); text-decoration: none; font-size: 13px; }
+.article-toc a:hover { text-decoration: underline; }
