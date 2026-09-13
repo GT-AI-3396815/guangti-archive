@@ -1,5 +1,5 @@
 // 扩充批次 G3 续：跨版块深度填充（12 条，每条 ≥800 字含附录）。
-window.ARCHIVE_DATA_EXPANSION_H3 = [
+window.ARCHIVE_DATA_EXPANSION_G4 = [
   {
     id: "ufo-1968-british-minley",
     section: "年度事件卷宗",
