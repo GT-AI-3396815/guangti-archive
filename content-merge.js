@@ -32,6 +32,7 @@
     ...(window.ARCHIVE_DATA_EXPANSION_I2 || []),
     ...(window.ARCHIVE_DATA_EXPANSION_I3 || []),
     ...(window.ARCHIVE_DATA_EXPANSION_I4 || []),
+    ...(window.ARCHIVE_DATA_EXPANSION_I5 || []),
   ];
   const seen = new Set();
   window.ARCHIVE_DATA = batches.filter((record) => {
