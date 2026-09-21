@@ -48,6 +48,7 @@
     ...(window.ARCHIVE_DATA_EXPANSION_I18 || []),
     ...(window.ARCHIVE_DATA_EXPANSION_I19 || []),
     ...(window.ARCHIVE_DATA_EXPANSION_I21 || []),
+    ...(window.ARCHIVE_DATA_EXPANSION_I22 || []),
     ...(window.ARCHIVE_DATA_EXPANSION_I20 || []),
   ];
   const seen = new Set();
