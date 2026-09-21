@@ -3241,3 +3241,9 @@ dialog::backdrop {
 .article-toc li { padding: 4px 0; }
 .article-toc a { color: var(--accent); text-decoration: none; font-size: 13px; }
 .article-toc a:hover { text-decoration: underline; }
+
+/* 返回顶部 + 侧栏随机探索 */
+#back-to-top { position: fixed; right: 22px; bottom: 26px; z-index: 90; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #45534b; background: #0b1114; color: #cfd8d2; font-size: 18px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; transform: translateY(8px); }
+#back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+#back-to-top:hover { background: #16211c; color: #fff; }
+.sidebar-random { width: 100%; margin-top: 10px; justify-content: center; font-size: 13px; }

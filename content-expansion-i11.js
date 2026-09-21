@@ -275,7 +275,7 @@ window.ARCHIVE_DATA_EXPANSION_I11 = [
     section: "地外文明搜寻实践",
     title: "CUFOS：海内克与 UFO 研究从空军转民间的转轨档案",
     subtitle: "CUFOS · HYNEK'S CENTER FOR UFO STUDIES",
-    category: "uap",
+    category: "theories",
     type: "档案",
     year: 1973,
     region: "美国 · 芝加哥",

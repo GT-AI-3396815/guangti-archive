@@ -109,6 +109,14 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
       icon: "globe-2",
     },
     {
+      id: "mysteries",
+      name: "超自然实录",
+      english: "PARANORMAL RECORDS",
+      image: "mars",
+      subtitle: "以档案与科考立场，复核每一桩超自然叙事。",
+      icon: "ghost",
+    },
+    {
       id: "symbols",
       name: "远古符号档案",
       english: "ANCIENT SYMBOL ARCHIVES",
@@ -287,7 +295,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     );
   };
   const photo = (key, className = "", loading = "lazy") =>
-    `<img class="${className}" src="assets/${key}.jpg" alt="${esc(imageSources[key]?.name || "星际档案配图")}" width="800" height="500" loading="${loading}" decoding="async">`;
+    `<img class="${className}" src="assets/${key}.jpg" alt="${esc(imageSources[key]?.name || "星际档案配图")}" width="800" height="500" loading="${loading}" decoding="async" onerror="this.onerror=null;this.src='assets/nebula.jpg'">`;
   let storageAvailable = true;
   function readStore(key, fallback) {
     try {
@@ -664,7 +672,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
   }
   function renderHome() {
     $("#main").innerHTML =
-      `<section class="hero" id="hero" aria-roledescription="轮播">${heroContent()}</section><div class="index-strip"><div class="wrap index-inner"><div class="index-stats"><span><b>${String(hallList.length + 2).padStart(2, "0")}</b>内容栏目</span><span><b>${String(records.length).padStart(2, "0")}</b>公开档案</span><span><b>${String(topics.length).padStart(2, "0")}</b>探索专题</span></div><span class="archive-status"><span class="status-dot"></span>开放探索 · 保持求证</span></div></div><section class="section wrap"><div class="section-heading"><div><h2>主题档案 <small>EXPLORE THE ARCHIVES</small></h2><p>七个主题馆，加上专题探索与文献资源，连接远古文明与深空探索。</p></div><a class="text-link" href="#/halls">全部主题档案 ${icon("arrow-up-right")}</a></div><div class="hall-grid">${hallList.map(hallCard).join("")}</div></section>${archiveOverview()}<section class="section section-rule wrap"><div class="home-columns"><div class="home-feed"><div class="section-heading"><div class="feed-title"><h2>新近入馆</h2><div class="feed-tabs" role="tablist" aria-label="档案推荐"><button role="tab" class="${feedMode === "curated" ? "active" : ""}" aria-selected="${feedMode === "curated"}" data-action="feed" data-mode="curated">馆长精选</button><button role="tab" class="${feedMode === "recent" ? "active" : ""}" aria-selected="${feedMode === "recent"}" data-action="feed" data-mode="recent">近期资料</button><button role="tab" class="${feedMode === "research" ? "active" : ""}" aria-selected="${feedMode === "research"}" data-action="feed" data-mode="research">研究发现</button></div></div><a class="text-link" href="#/archives">全部档案 ${icon("arrow-up-right")}</a></div><div id="home-feed" class="card-grid">${feedRecords().map(archiveCard).join("")}</div></div><aside class="research-aside"><div class="section-heading"><h2>研究速递 <small>RESEARCH NOTES</small></h2>${icon("radio")}</div>${[
+      `<section class="hero" id="hero" aria-roledescription="轮播">${heroContent()}</section><div class="index-strip"><div class="wrap index-inner"><div class="index-stats"><span><b>${String(hallList.length + 2).padStart(2, "0")}</b>内容栏目</span><span><b>${String(records.length).padStart(2, "0")}</b>公开档案</span><span><b>${String(topics.length).padStart(2, "0")}</b>探索专题</span></div><span class="archive-status"><span class="status-dot"></span>开放探索 · 保持求证</span></div></div><section class="section wrap"><div class="section-heading"><div><h2>主题档案 <small>EXPLORE THE ARCHIVES</small></h2><p>八个主题馆，加上专题探索与文献资源，连接远古文明与深空探索。</p></div><a class="text-link" href="#/halls">全部主题档案 ${icon("arrow-up-right")}</a></div><div class="hall-grid">${hallList.map(hallCard).join("")}</div></section>${archiveOverview()}<section class="section section-rule wrap"><div class="home-columns"><div class="home-feed"><div class="section-heading"><div class="feed-title"><h2>新近入馆</h2><div class="feed-tabs" role="tablist" aria-label="档案推荐"><button role="tab" class="${feedMode === "curated" ? "active" : ""}" aria-selected="${feedMode === "curated"}" data-action="feed" data-mode="curated">馆长精选</button><button role="tab" class="${feedMode === "recent" ? "active" : ""}" aria-selected="${feedMode === "recent"}" data-action="feed" data-mode="recent">近期资料</button><button role="tab" class="${feedMode === "research" ? "active" : ""}" aria-selected="${feedMode === "research"}" data-action="feed" data-mode="research">研究发现</button></div></div><a class="text-link" href="#/archives">全部档案 ${icon("arrow-up-right")}</a></div><div id="home-feed" class="card-grid">${feedRecords().map(archiveCard).join("")}</div></div><aside class="research-aside"><div class="section-heading"><h2>研究速递 <small>RESEARCH NOTES</small></h2>${icon("radio")}</div>${[
         "life-beyond-earth",
         "gofast-analysis",
         "technosignatures-report",
@@ -747,6 +755,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     uap: ["年度事件卷宗", "官方解密资料", "异象分类归档", "高清素材库"],
     circles: ["年度图案全集", "图案密码解析", "真伪论证卷宗", "素材库"],
     latitude30: ["沿线超级古文明遗址", "世界级未解秘境卷宗", "超自然诡异事件实录", "科考探秘素材库"],
+    mysteries: ["超自然诡异事件实录", "世界级未解秘境卷宗"],
     symbols: ["全球古文明神秘符号库", "史前天文符号与星图", "跨文明同源符号破译", "符号文物素材卷宗"],
   };
   const sectionAliases = {
@@ -773,6 +782,8 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
       "专著书籍": "专著书籍",
       "考古与考察资料": "考古与考察资料",
       "科考与考古报告库": "考古与考察资料",
+      "文献资源": "文献入口",
+      "高清素材库": "文献入口",
     }[value]);
     if (mapped) return mapped;
     if (r.type === "影像" || r.type === "图集") return "历史影像";
@@ -791,8 +802,9 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     circles: { kicker: "ARCHIVE V / PATTERNS IN THE FIELD", title: "从图案几何走到现场痕迹与来源争议。", body: "收录麦田怪圈的图案、时间、地点、测量与论证。几何对应、星际符号和能量说法作为待检验解释，与人为制作记录、植物变化研究和现场证据并列呈现。", groups: [{name:"年度图案全集", items:"1970 年至今的公开原图、航拍图与时间线"}, {name:"图案密码解析", items:"几何逻辑、天文对应、二进制与符号解读"}, {name:"真伪论证卷宗", items:"人为制作、自然异象、地外信号三类论据及检测"}, {name:"素材库", items:"航拍、延时、现场检测视频、专著与图鉴"}] },
     latitude30: { kicker: "ARCHIVE VI / THE 30TH PARALLEL NORTH", title: "沿一条纬线，把遗址、秘境与自然记录放在同一张地图上。", body: "北纬三十度是地域索引，不是超自然结论。条目保留真实坐标和来源；古文明遗址、自然奇观、天气和地磁事件需分别查证，跨纬度地点也会明确标注其实际位置。", groups: [{name:"沿线超级古文明遗址", items:"吉萨、三星堆、两河文明与可定位的相关遗址"}, {name:"世界级未解秘境卷宗", items:"百慕大、死亡谷、神农架、鄱阳湖与洞穴、地磁区域"}, {name:"超自然诡异事件实录", items:"时空错位、生物异变、天气异象与失踪叙述"}, {name:"科考探秘素材库", items:"科考视频、遗址航拍、地质检测、民俗纪实和专题研究"}] },
     symbols: { kicker: "ARCHIVE VII / SIGNS ACROSS CIVILIZATIONS", title: "把符号还给它的器物、年代与文明语境。", body: "远古符号档案连接文字、星图、器物纹饰和刻痕。符号相似不自动等于同源；页面优先展示实物来源、释读方法、不同解释与不确定性。", groups: [{name:"全球古文明神秘符号库", items:"楔形文字、古埃及图腾、玛雅铭文、华夏纹饰与两河刻痕"}, {name:"史前天文符号与星图", items:"星图、行星符号、节气刻痕与疑似坐标图案"}, {name:"跨文明同源符号破译", items:"跨地域对照、溯源推演与地外关联猜想"}, {name:"符号文物素材卷宗", items:"石刻、壁画、器物、拓片、考古文献与研究专著"}] },
+    mysteries: { kicker: "ARCHIVE VIII / PARANORMAL RECORDS", title: "用档案与科考立场，复核每一桩超自然叙事。", body: "超自然实录馆收录失踪、异响、幽灵船、冷案与群体经验的完整档案。页面区分三类档案：有完整物证链的已解悬案、仍在取证的进行中悬案，以及查无源头的传说标本。每条档案给出调查史、物证清单与剩余不确定性。", groups: [{name:"超自然诡异事件实录", items:"迪亚特洛夫、索德家、弗兰南灯塔、舞蹈瘟疫与群体经验档案"}, {name:"世界级未解秘境卷宗", items:"罗阿诺克、橡树岛、死海、沃斯托克湖与尼莫点"}, {name:"悬案方法论", items:"骷髅湖古DNA、风帆石实拍、Bloop声学归案与证据分级方法"}] },
   };
-  const resourceGuide = { kicker: "ARCHIVE IX / RESEARCH LIBRARY", title: "把猎奇内容之外的正规资料，放回可追溯的阅读路径。", body: "文献资源是全站唯一的学术、档案和史料聚合区。每条资料显示来源机构、日期、类型、证据属性和原始链接；版权不明或未获授权的完整书籍、视频不会被伪装成本站下载。", groups: [{name:"官方解密档案库", items:"军方、航天局、情报机构与考古官方文件"}, {name:"学术论文研究库", items:"天文物理、考古、UAP 与异常现象研究"}, {name:"中外专著书籍库", items:"公开可访问的专著书目与数字化版本入口"}, {name:"科考与考古报告库", items:"实测数据、遗址勘探、地质地磁与观测日志"}, {name:"绝版影像文献库", items:"公开授权的纪录片、访谈与早期探索影像"}, {name:"专题合集", items:"按事件、人物、地域和年代整合的系列阅读"}] };
+  const resourceGuide = { kicker: "ARCHIVE IX / RESEARCH LIBRARY", title: "把猎奇内容之外的正规资料，放回可追溯的阅读路径。", body: "文献资源是全站唯一的学术、档案和史料聚合区。每条资料显示来源机构、日期、类型、证据属性和原始链接；版权不明或未获授权的完整书籍、视频不会被伪装成本站下载。", groups: [{name:"官方解密档案库", items:"军方、航天局、情报机构与考古官方文件"}, {name:"学术论文研究库", items:"天文物理、考古、UAP 与异常现象研究"}, {name:"中外专著书籍库", items:"公开可访问的专著书目与数字化版本入口"}, {name:"科考与考古报告库", items:"实测数据、遗址勘探、地质地磁与观测日志"}, {name:"绝版影像文献库", items:"公开授权的纪录片、访谈与早期探索影像"}, {name:"专题合集", items:"按事件、人物、地域和年代整合的系列阅读"}, {name:"文献入口", items:"图书馆、档案馆、地图库与开放检索入口的导览档案"}] };
   function guideSection(guide) {
     if (!guide) return "";
     const resourceTypes = [
@@ -840,7 +852,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     );
   }
   function catalogNav(selected) {
-    return `<aside class="catalog-sidebar"><h2>馆藏目录</h2><nav class="catalog-nav" aria-label="馆藏栏目"><a href="#/archives" class="${selected === "all" ? "active" : ""}"><span>ALL</span>全部档案</a>${hallList.map((item, i) => `<a href="#/hall/${item.id}" class="${selected === item.id ? "active" : ""}"><span>0${i + 1}</span>${item.name}</a>`).join("")}<a href="#/library" class="catalog-library-link ${selected === "resources" ? "active" : ""}">${icon("book-open")}文献资源</a></nav><div class="sidebar-note">${icon("scan-eye")}探索未知，始于清晰的来源。<br>区分事实、假说与叙述。</div></aside>`;
+    return `<aside class="catalog-sidebar"><h2>馆藏目录</h2><nav class="catalog-nav" aria-label="馆藏栏目"><a href="#/archives" class="${selected === "all" ? "active" : ""}"><span>ALL</span>全部档案</a>${hallList.map((item, i) => `<a href="#/hall/${item.id}" class="${selected === item.id ? "active" : ""}"><span>0${i + 1}</span>${item.name}</a>`).join("")}<a href="#/library" class="catalog-library-link ${selected === "resources" ? "active" : ""}">${icon("book-open")}文献资源</a></nav><div class="sidebar-note">${icon("scan-eye")}探索未知，始于清晰的来源。<br>区分事实、假说与叙述。</div><button class="button ghost sidebar-random" data-action="random-record">${icon("shuffle")}随机探索一份档案</button></aside>`;
   }
   function renderCatalog(type, id, params) {
     let base = records,
@@ -875,7 +887,17 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
       title = current.title;
       english = current.eyebrow;
       description = current.summary;
-      base = current.ids.map(findRecord).filter(Boolean);
+      const curated = current.ids.map(findRecord).filter(Boolean);
+      // 相关档案扩展：与精选条目共享≥2个标签者，按重合度补齐（上限15份）
+      const seedTags = new Set(curated.flatMap((r) => r.tags || []));
+      const extra = records
+        .filter((r) => !curated.includes(r))
+        .map((r) => ({ r, hits: (r.tags || []).filter((t) => seedTags.has(t)).length }))
+        .filter((x) => x.hits >= 2)
+        .sort((a, b) => b.hits - a.hits)
+        .slice(0, Math.max(0, 15 - curated.length))
+        .map((x) => x.r);
+      base = [...curated, ...extra];
       crumbs = [{ label: "专题探索", href: "#/topics" }, { label: title }];
     }
     if (type === "search") {
@@ -908,7 +930,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     }
     if (type === "hall" && id === "symbols") $(".catalog-main").classList.add("symbols-catalog");
     const sections = type === "library"
-      ? ["官方文档", "学术论文", "专著书籍", "考古与考察资料", "历史影像"]
+      ? ["官方文档", "学术论文", "专著书籍", "考古与考察资料", "历史影像", "文献入口"]
       : type === "hall" ? [...new Set([...(hallSections[id] || []), ...base.map(recordSection)])] : [];
     if (sections.length) {
       const sectionValue = sections.includes(params.get("section")) ? params.get("section") : "";
@@ -1088,8 +1110,11 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
       $(".detail-back a").innerHTML = `${icon("arrow-left")}返回文献资源`;
     }
     if (record.category === "symbols") $(".detail-main").classList.add("symbol-detail");
-    if (record.facts) {
-      $(".detail-facts").insertAdjacentHTML("beforeend", Object.entries(record.facts).map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join(""));
+    const detailFacts = record.facts && Object.keys(record.facts).length
+      ? record.facts
+      : { "资料年代": String(record.publishedAt || record.year || "未标注"), "来源机构": record.source || "未标注" };
+    {
+      $(".detail-facts").insertAdjacentHTML("beforeend", Object.entries(detailFacts).map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join(""));
     }
     if (record.evidenceLabel) $(".article-evidence h2").textContent = `资料属性 · ${record.evidenceLabel}`;
     if (record.evidenceNote) $(".article-evidence p").textContent = record.evidenceNote;
@@ -1245,6 +1270,26 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
+  function exportBibtex(id) {
+    const r = findRecord(id);
+    if (!r) return;
+    const key = "guangti" + String(records.indexOf(r) + 1).padStart(4, "0");
+    const year = String(r.publishedAt || r.year || "n.d.").replace(/^-/, "");
+    const era = String(r.publishedAt || "").startsWith("-") ? " [B.C.E.]" : "";
+    const author = (r.source || "光体星际档案馆").split(" · ")[0];
+    const bib = [
+      "@misc{" + key + ",",
+      "  author       = {" + author + "},",
+      "  title        = {" + r.title + "},",
+      "  year         = {" + year + era + "},",
+      "  howpublished = {光体·星际档案馆档案条目},",
+      "  note         = {证据属性: " + (r.status || "未标注") + "; 来源: " + (r.sourceUrl || "未提供") + "},",
+      "  url          = {" + (r.sourceUrl || "") + "}",
+      "}"
+    ].join("\n");
+    downloadText(key + "-" + r.id + ".bib", bib);
+    toast("BibTeX 引用已导出");
+  }
   function downloadRecord(id) {
     const r = findRecord(id);
     if (!r) return;
@@ -1391,7 +1436,7 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     if (action === "preview") {
       const key = button.dataset.key;
       $("#media-image").src = `assets/${key}.jpg`;
-      $("#media-image").alt = imageSources[key].name;
+      $("#media-image").alt = imageSources[key]?.name || "星际档案配图";
       $("#media-caption").textContent =
         `${imageSources[key].name} · ${imageSources[key].author}`;
       $("#media-dialog").showModal();
@@ -1399,6 +1444,11 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
     if (action === "download") downloadRecord(id);
     if (action === "copy-source") copySource(id);
     if (action === "correction") showCorrection(id);
+    if (action === "export-bibtex") exportBibtex(id);
+    if (action === "random-record") {
+      const pick = records[Math.floor(Math.random() * records.length)];
+      if (pick) { location.hash = "#/archive/" + pick.id; toast("随机抽取：一份新档案"); }
+    }
   });
   $("#search-input").addEventListener("input", renderSearchSuggestions);
   $("#search-form").addEventListener("submit", (e) => {
@@ -1432,6 +1482,11 @@ function srcLabel(u) { try { const url = new URL(u); return url.protocol === "fi
       if (href === location.hash) route();
     }
   });
+  const backToTop = document.getElementById("back-to-top");
+  if (backToTop) {
+    window.addEventListener("scroll", () => backToTop.classList.toggle("show", window.scrollY > 600), { passive: true });
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
   window.addEventListener("hashchange", route);
   route();
 })();

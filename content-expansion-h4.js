@@ -235,7 +235,7 @@ window.ARCHIVE_DATA_EXPANSION_H4 = [
     section: "科考探秘素材库",
     title: "国际大洋发现计划数据库：海底岩芯里的地球编年史",
     subtitle: "IODP · SCIENTIFIC OCEAN DRILLING DATA",
-    category: "resources",
+    category: "latitude30",
     type: "数据",
     year: 1968,
     region: "全球 · 大洋钻探",

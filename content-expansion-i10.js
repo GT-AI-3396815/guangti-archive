@@ -228,7 +228,7 @@ window.ARCHIVE_DATA_EXPANSION_I10 = [
   },
   {
     id: "ancient-angkor-hydraulic-city",
-    section: "沿线超级古文明遗址",
+    section: "文明遗址",
     title: "吴哥：被水利写成也因水利而困的高棉都城",
     subtitle: "ANGKOR · THE HYDRAULIC CITY",
     category: "ancient",
@@ -363,7 +363,7 @@ window.ARCHIVE_DATA_EXPANSION_I10 = [
   },
   {
     id: "resources-wikimedia-commons-repo",
-    section: "高清素材库",
+    section: "文献资源",
     title: "维基共享资源：本馆配图的来处与自由素材的底座",
     subtitle: "WIKIMEDIA COMMONS · FREE MEDIA REPOSITORY",
     category: "resources",
